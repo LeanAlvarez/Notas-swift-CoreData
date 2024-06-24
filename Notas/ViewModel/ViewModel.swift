@@ -14,11 +14,13 @@ class ViewModel: ObservableObject {
     @Published var nota = ""
     @Published var fecha = Date()
     @Published var show = false
+    @Published var updateItem : Notas!
     
     
     
     //core data
     
+    //guardar los datos
     func saveData(context: NSManagedObjectContext){
         let newNota = Notas(context: context)
         newNota.nota = nota
@@ -35,7 +37,7 @@ class ViewModel: ObservableObject {
     }
     
     
-    
+    //eliminar los datos
     func deleteData(item: Notas, context: NSManagedObjectContext){
         context.delete(item)
         //try! context.save()
@@ -48,8 +50,33 @@ class ViewModel: ObservableObject {
             print("No se elimino", error.localizedDescription)
         }
         
+    }
+    
+    //enviar los datos para editar
+    func sendData(item: Notas){
+        updateItem = item
+        nota = item.nota ?? ""
+        fecha = item.fecha ?? Date()
+        show.toggle()
+    }
+    
+    //editar los datos
+    func editData(context: NSManagedObjectContext){
+        updateItem.fecha = fecha
+        updateItem.nota = nota
+        
+        do{
+            try context.save()
+            print("se actualizo")
+            show.toggle()
+        }catch let error as NSError{
+            //alerta para el usuario
+            print("No se Edito", error.localizedDescription)
+        }
         
         
     }
+    
+    
     
 }

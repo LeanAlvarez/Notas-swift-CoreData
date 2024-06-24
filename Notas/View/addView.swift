@@ -14,7 +14,7 @@ struct addView: View {
     
     var body: some View {
         VStack{
-            Text("Agregar Nota")
+            Text(model.updateItem != nil ? "Editar Nota" :"Agregar Nota")
                 .font(.largeTitle)
                 .bold()
             
@@ -29,7 +29,11 @@ struct addView: View {
             Spacer()
             
             Button(action: {
-                model.saveData(context: context)
+                if model.updateItem != nil {
+                    model.editData(context: context)
+                }else {
+                    model.saveData(context: context)
+                }
             }){
                 Label(
                     title: { Text("Guardar").foregroundColor(.white).bold() },
@@ -37,8 +41,9 @@ struct addView: View {
 )
             }.padding()
                 .frame(width: UIScreen.main.bounds.width - 30)
-                .background(Color.blue)
+                .background(model.nota == "" ? Color.gray : Color.blue)
                 .cornerRadius(8)
+                .disabled(model.nota == "" ? true : false)
         }.padding()
     }
 }
