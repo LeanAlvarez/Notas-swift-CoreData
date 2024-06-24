@@ -14,7 +14,7 @@ struct Home: View {
     @Environment(\.managedObjectContext) var context
     
     @FetchRequest(entity: Notas.entity(), sortDescriptors: [NSSortDescriptor(key: "fecha", ascending: true)], animation: .spring()) var result: FetchedResults<Notas>
-    
+    //@FetchRequest(entity: Notas.entity(),sortDescriptors: [],predicate: NSPredicate(format: "nota CONTAINS[c] 'IMPORTANTE' "),animation: .spring()) var result: FetchedResults<Notas>
     
     var body: some View {
         NavigationView{
